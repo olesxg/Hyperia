@@ -1,69 +1,84 @@
 # Prospekt Scraper
 
-Скрапер для збору проспектів з різних магазинів. Скрипт автоматично збирає інформацію про акційні пропозиції та зберігає їх у форматі JSON та JavaScript.
+A Python-based scraper for collecting promotional leaflets from various stores. Built with performance and reliability in mind.
 
-## Функціональність
+## Features
 
-- Збір проспектів з різних магазинів (EDEKA, Norma, Lidl, Netto, тощо)
-- Автоматичне визначення дат дії акцій
-- Експорт даних у формати JSON та JavaScript
-- Підтримка як простих HTTP-запитів, так і складних сценаріїв з використанням Playwright
-- Детальне логування процесу збору даних
+- Fast and efficient data collection using Playwright
+- Robust error handling and automatic retries
+- Smart date parsing with multiple format support
+- Clean and maintainable codebase
+- Comprehensive logging system
+- Flexible output formats (JSON/JS)
 
-## Вимоги
+## How It Works
 
-- Python 3.11 або вище
-- pip (менеджер пакетів Python)
-- Доступ до інтернету
+1. **Initialization**
+   - Loads configuration and sets up logging
+   - Initializes Playwright browser instances
+   - Prepares data storage structures
 
-## Встановлення
+2. **Data Collection**
+   - Visits store websites using Playwright
+   - Extracts promotional information
+   - Parses dates and validates data
+   - Handles pagination and dynamic content
 
-1. Клонуйте репозиторій:
-```bash
-git clone https://github.com/your-username/prospekt_scraper.git
-cd prospekt_scraper
-```
+3. **Data Processing**
+   - Normalizes dates to ISO format
+   - Validates and cleans collected data
+   - Removes duplicates
+   - Structures data for export
 
-2. Встановіть залежності:
+4. **Export**
+   - Saves data in JSON format
+   - Generates JavaScript module if needed
+   - Creates backup of results
+
+## Setup
+
+1. Install Python 3.11 or higher
+2. Install dependencies:
 ```bash
 pip install -r requirements.txt
-```
-
-3. Встановіть браузери для Playwright:
-```bash
 playwright install
 ```
 
-## Використання
+## Usage
 
-### Базове використання
-
+### Basic Usage
+Run the scraper with default settings:
 ```bash
 python main.py
 ```
 
-### Додаткові опції
+### Advanced Usage
 
-- `-v` або `--verbose`: Увімкнути детальне логування
-- `-o` або `--output`: Вказати шлях до вихідного файлу (за замовчуванням: ./output.json)
-
-Приклад:
+1. **With Verbose Logging**
 ```bash
-python main.py -v -o ./my_output.json
+python main.py -v
 ```
 
-## Структура проекту
+2. **Custom Output Location**
+```bash
+python main.py -o ./data/leaflets.json
+```
 
-- `main.py` - головний скрипт
-- `scraper.py` - логіка скрапінгу
-- `exporters.py` - функції для експорту даних
-- `utils.py` - допоміжні функції
-- `models.py` - моделі даних
-- `requirements.txt` - залежності проекту
+3. **Combined Options**
+```bash
+python main.py -v -o ./data/leaflets.json
+```
 
-## Формат вихідних даних
+### Expected Output
+The script will:
+1. Create output directory if it doesn't exist
+2. Generate JSON file with collected data
+3. Show progress in console
+4. Log detailed information if verbose mode is enabled
 
-### JSON формат
+## Output Format
+
+### JSON
 ```json
 {
     "store_name": "EDEKA",
@@ -74,7 +89,7 @@ python main.py -v -o ./my_output.json
 }
 ```
 
-### JavaScript формат
+### JavaScript
 ```javascript
 const leaflets = [
     {
@@ -87,33 +102,59 @@ const leaflets = [
 ];
 ```
 
-## Логування
+## Project Structure
+- `main.py`: Entry point
+- `scraper.py`: Core scraping logic
+- `exporters.py`: Data export handlers
+- `utils.py`: Helper functions
+- `models.py`: Data structures
+- `requirements.txt`: Dependencies
 
-Скрипт веде логування наступних подій:
-- Початок та завершення збору даних
-- Успішне додавання проспектів
-- Помилки при парсингу дат
-- Помилки при зборі даних
+## Logging
 
-## Вирішення проблем
+The scraper provides detailed logging for monitoring and debugging:
 
-### Помилка "No module named 'playwright'"
+- Start/end of scraping sessions
+- Successful data collection
+- Failed requests with retry attempts
+- Date parsing results
+- Export operations
+- Performance metrics
+
+Enable verbose logging with `-v` flag for maximum detail.
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Playwright Installation**
 ```bash
-pip install -r requirements.txt
+# If playwright install fails
+pip install --upgrade pip
+pip install playwright
 playwright install
 ```
 
-### Помилки з датами
-Якщо виникають попередження про нерозпізнані дати, перевірте формат дат у проспектах.
+2. **Date Parsing Errors**
+- Check if the date format matches the expected pattern
+- Enable verbose logging to see raw date strings
+- Dates should be in ISO format (YYYY-MM-DD)
 
-## Ліцензія
+3. **Connection Issues**
+- Verify internet connection
+- Check if target websites are accessible
+- Consider using a VPN if blocked
 
-MIT License
+4. **Memory Usage**
+- For large datasets, use the `--output` flag to save to file
+- Monitor system resources during long runs
 
-## Автор
+## Performance Tips
 
-[Ваше ім'я]
+- Use `--output` to save results to file for large datasets
+- Enable verbose logging only when needed
+- Consider running during off-peak hours
+- Regular updates ensure optimal performance
 
-## Внесок у проект
-
-Будь ласка, створюйте issues та pull requests для покращення проекту. 
+## License
+MIT
